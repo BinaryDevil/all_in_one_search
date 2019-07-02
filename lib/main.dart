@@ -37,6 +37,7 @@ class _SearchHomePageState extends State<SearchHomePage> {
   List names = new List();
   List filteredNames = new List();
   Icon _searchIcon = new Icon(Icons.search);
+  bool _searchFocus = false;
 
   @override
   void initState() {
@@ -64,12 +65,27 @@ class _SearchHomePageState extends State<SearchHomePage> {
     });
   }
 
+  void _setSearchFocus(bool val) {
+    setState(() {
+      _searchFocus = val;
+    });
+  }
+
   Widget _buildBar(BuildContext context) {
+    var actions = List<Widget>();
+    if(_searchFocus){
+      actions.add(
+        IconButton(icon: Icon(Icons.more_vert), onPressed: () {}),
+      );
+    }
     return new AppBar(
       centerTitle: true,
       title: Container(
-          margin: EdgeInsets.all(5),
-          child: SearchBar(searchTextChange: this._setSearchKeyword)),
+          padding: EdgeInsets.all(5),
+          child: SearchBar(
+              searchTextChange: this._setSearchKeyword,
+              focusChange: this._setSearchFocus)),
+      actions:actions,
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -95,13 +111,12 @@ class _SearchHomePageState extends State<SearchHomePage> {
       filteredNames = tempList;
     }
 
-  var items = [1,2,3];
+    var items = [1, 2, 3];
 
     return ListView.builder(
       itemCount: items.length,
       itemBuilder: (BuildContext context, int index) {
-        return new RecipientCard(
-        );
+        return new RecipientCard();
       },
     );
   }
