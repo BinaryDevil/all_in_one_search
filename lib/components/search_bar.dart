@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatefulWidget {
-  SearchBar({Key key}) : super(key: key);
+  final Function searchTextChange;
 
-  _SearchBarState createState() => _SearchBarState();
+  SearchBar({Key key, this.searchTextChange}) : super(key: key);
+
+  _SearchBarState createState() => _SearchBarState(searchTextChange);
 }
 
 class _SearchBarState extends State<SearchBar> {
@@ -15,25 +17,25 @@ class _SearchBarState extends State<SearchBar> {
   var focused = false;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
   }
 
-  void _onFocusChange(){
-    debugPrint("Focus: "+_focusNode.hasFocus.toString());
+  void _onFocusChange() {
+    debugPrint("Focus: " + _focusNode.hasFocus.toString());
   }
 
-  _SearchBarState() {
+  _SearchBarState(_searchTextChange) {
     this._filter.addListener(() {
-      print(_filter);
       if (_filter.text.isEmpty) {
         setState(() {
           _searchText = "";
+          this.widget.searchTextChange("");
         });
       } else {
         setState(() {
           _searchText = _filter.text;
-          // setParentState
+          this.widget.searchTextChange(_filter.text);
         });
       }
     });

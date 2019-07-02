@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'search_bar.dart';
+import './components/search_bar.dart';
+import './components/recipient.dart';
 
 void main() => runApp(new MyApp());
 
@@ -57,7 +58,7 @@ class _SearchHomePageState extends State<SearchHomePage> {
     );
   }
 
-  void setSearchKeyword(String val) {
+  void _setSearchKeyword(String val) {
     setState(() {
       _searchText = val;
     });
@@ -67,8 +68,8 @@ class _SearchHomePageState extends State<SearchHomePage> {
     return new AppBar(
       centerTitle: true,
       title: Container(
-        margin: EdgeInsets.all(),
-        child: SearchBar()),
+          margin: EdgeInsets.all(5),
+          child: SearchBar(searchTextChange: this._setSearchKeyword)),
       flexibleSpace: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -93,12 +94,13 @@ class _SearchHomePageState extends State<SearchHomePage> {
       }
       filteredNames = tempList;
     }
+
+  var items = [1,2,3];
+
     return ListView.builder(
-      itemCount: names == null ? 0 : filteredNames.length,
+      itemCount: items.length,
       itemBuilder: (BuildContext context, int index) {
-        return new ListTile(
-          title: Text(filteredNames[index]['name']),
-          onTap: () => print(filteredNames[index]['name']),
+        return new RecipientCard(
         );
       },
     );
